@@ -1,17 +1,53 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, ArrowRight, Sparkles, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, Check, Loader2 } from "lucide-react";
 import Link from "next/link";
+
+interface EmailResponse {
+    id: number;
+    email: string;
+    created_at: string;
+}
 
 export default function AiformaWaitlist() {
     const [email, setEmail] = useState("");
     const [joined, setJoined] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleJoin = () => {
-        // handle join logic here
-        console.log("Join clicked with email:", email);
-        setJoined(true);
+    const handleJoin = async () => {
+        if (!email.trim()) {
+            setError("Please enter your email address.");
+            return;
+        }
+
+        setIsSubmitting(true);
+        setError(null);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/emails/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to join waitlist. Please try again.");
+            }
+
+            const data: EmailResponse = await res.json();
+            console.log("Joined waitlist:", data);
+            setJoined(true);
+        } catch (err) {
+            const message =
+                err instanceof Error ? err.message : "Something went wrong. Please try again.";
+            setError(message);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -90,25 +126,49 @@ export default function AiformaWaitlist() {
                         </p>
                     </div>
                 ) : (
-                    <div className="mt-10 flex w-full max-w-md items-center rounded-full border border-gray-700 bg-[#0c1412] p-1.5 pl-5">
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email address"
-                            className="flex-1 bg-transparent text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none"
-                        />
-                        <button
-                            onClick={handleJoin}
-                            className="flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90"
-                            style={{
-                                background: "linear-gradient(90deg, #00A896 0%, #05786D 100%)",
-                            }}
-                        >
-                            Join
-                            <ArrowRight className="h-4 w-4" />
-                        </button>
-                    </div>
+                    <>
+                        <div className="mt-10 flex w-full max-w-md items-center rounded-full border border-gray-700 bg-[#0c1412] p-1.5 pl-5">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    if (error) setError(null);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && !isSubmitting) handleJoin();
+                                }}
+                                placeholder="Enter your email address"
+                                disabled={isSubmitting}
+                                className="flex-1 bg-transparent text-sm text-gray-200 placeholder:text-gray-500 focus:outline-none disabled:opacity-60"
+                            />
+                            <button
+                                onClick={handleJoin}
+                                disabled={isSubmitting}
+                                className="flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                                style={{
+                                    background: "linear-gradient(90deg, #00A896 0%, #05786D 100%)",
+                                }}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        Joining
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                    </>
+                                ) : (
+                                    <>
+                                        Join
+                                        <ArrowRight className="h-4 w-4" />
+                                    </>
+                                )}
+                            </button>
+                        </div>
+
+                        {/* Error message */}
+                        {error && (
+                            <p className="mt-3 text-xs text-red-400">{error}</p>
+                        )}
+                    </>
                 )}
 
                 {/* Spots remaining */}
