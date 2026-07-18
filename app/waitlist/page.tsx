@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles, Check, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface EmailResponse {
     id: number;
@@ -60,10 +61,14 @@ export default function AiformaWaitlist() {
         >
             {/* Header */}
             <header className="w-10/12 mx-auto flex items-center justify-between px-8 py-6">
-                <div className="text-lg font-bold tracking-widest">
-                    <span style={{ color: "#00A896" }}>A</span>
-                    <span style={{ color: "#00A896" }}>i</span>
-                    <span className="text-white">FORMA</span>
+                <div className="shrink-0">
+                    <Image
+                        src="/ai-forma-logo-2.png"
+                        alt="AiFORMA"
+                        width={160}
+                        height={42}
+                        priority
+                    />
                 </div>
                 <Link href="/">
                     <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-200 transition-colors">

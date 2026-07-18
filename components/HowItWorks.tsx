@@ -1,5 +1,5 @@
 import { ChevronLeft, User } from "lucide-react";
-import PhoneFrame from "./PhoneFrame";
+import Image from "next/image";
 
 const steps = [
   {
@@ -47,57 +47,16 @@ export default function HowItWorks() {
           </div>
         </div>
 
-        <div className="flex justify-center">
-          <PhoneFrame>
-            <div className="relative h-full flex flex-col">
-              {/* soft color blobs so the glass has something to refract */}
-              <div className="absolute -top-4 -right-8 w-32 h-32 bg-rose-100/60 rounded-full blur-2xl" />
-              <div className="absolute top-44 -left-10 w-28 h-28 bg-teal-100/60 rounded-full blur-2xl" />
-
-              <div className="relative flex items-center gap-3 mb-8">
-                <button className="w-9 h-9 rounded-full bg-white/70 backdrop-blur-md border border-white/80 shadow-sm flex items-center justify-center">
-                  <ChevronLeft className="w-5 h-5 text-slate-500" />
-                </button>
-                <p className="font-bold text-base text-slate-900">Body Composition</p>
-              </div>
-
-              <p className="text-[11px] text-center tracking-wide text-slate-400 font-medium mb-6">
-                OVERVIEW
-              </p>
-
-              <div className="relative grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-2xl p-6 min-h-[160px] flex flex-col items-center justify-center gap-2 shadow-[0_4px_20px_rgba(15,23,42,0.06)]">
-                  <div className="w-14 h-14 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center mb-3">
-                    <User className="w-7 h-7 text-rose-400" />
-                  </div>
-                  <p className="text-xs text-slate-500">Fat Mass</p>
-                  <p className="text-sm font-bold text-slate-900">18.7 kg</p>
-                </div>
-                <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-2xl p-6 min-h-[160px] flex flex-col items-center justify-center shadow-[0_4px_20px_rgba(15,23,42,0.06)]">
-                  <div className="w-14 h-14 rounded-full bg-teal-50 border border-teal-100 flex items-center justify-center mb-3">
-                    <User className="w-7 h-7 text-teal-500" />
-                  </div>
-                  <p className="text-xs text-slate-500">Lean Mass</p>
-                  <p className="text-sm font-bold text-slate-900">68.7 kg</p>
-                </div>
-              </div>
-
-              <div className="relative bg-white/50 backdrop-blur-xl border border-white/70 rounded-2xl p-6 flex-1 shadow-[0_4px_20px_rgba(15,23,42,0.06)]">
-                <p className="text-xs text-slate-500 mb-2">
-                  Body Fat Percentage
-                </p>
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-2xl font-bold text-slate-900">18.2%</p>
-                  <span className="text-xs font-semibold bg-teal-50 text-teal-700 border border-teal-200 px-2.5 py-1 rounded-full">
-                    Good
-                  </span>
-                </div>
-                <div className="h-2 bg-slate-200/70 rounded-full overflow-hidden">
-                  <div className="h-full w-1/3 bg-gradient-to-r from-teal-600 to-emerald-500 rounded-full" />
-                </div>
-              </div>
-            </div>
-          </PhoneFrame>
+        <div className="flex justify-center md:justify-end">
+          <div className="relative w-[323px] h-[614px] rounded-[3rem] border-8 border-slate-950 bg-slate-950 shadow-2xl overflow-hidden">
+            <Image
+              src="/mf-2.png"
+              alt="AiFORMA"
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
     </section>
