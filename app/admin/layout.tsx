@@ -26,6 +26,16 @@ const menus = [
         href: "/admin/payment",
         icon: CreditCard,
     },
+    {
+        title: "Waitlist",
+        href: "/admin/waitlist",
+        icon: CreditCard,
+    },
+    {
+        title: "Report a Bug",
+        href: "/admin/report-bug",
+        icon: CreditCard,
+    },
 ];
 
 export default function AdminLayout({
@@ -65,8 +75,8 @@ export default function AdminLayout({
                                 href={item.href}
                                 aria-current={active ? "page" : undefined}
                                 className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm transition ${active
-                                        ? "bg-teal-600 text-white"
-                                        : "text-gray-300 hover:bg-teal-700 hover:text-white"
+                                    ? "bg-teal-600 text-white"
+                                    : "text-gray-300 hover:bg-teal-700 hover:text-white"
                                     }`}
                             >
                                 <Icon size={18} />
